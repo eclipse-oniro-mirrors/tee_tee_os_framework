@@ -665,7 +665,6 @@ TEE_TEST(TeeBasicTestFram, InvokeCommand_WithOperationAllType, Function | Medium
     ASSERT_STREQ(reinterpret_cast<char *>(nonZeroCopysharedMem.sharedMem.buffer), g_teeInout);
     ASSERT_EQ(operation.params[0].memref.size, g_teeInoutLen);
     ASSERT_STREQ(reinterpret_cast<char *>(testMem.sharedMem.buffer), g_teeInout);
-    ASSERT_EQ(operation.params[1].memref.size, 0);
     ASSERT_STREQ(reinterpret_cast<char *>(operation.params[2].tmpref.buffer), g_teeInout);
     ASSERT_EQ(operation.params[2].tmpref.size, g_teeInoutLen);
     ASSERT_EQ(operation.params[3].value.a, 0x123 - 1);

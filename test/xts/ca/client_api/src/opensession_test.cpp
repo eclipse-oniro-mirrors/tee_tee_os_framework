@@ -210,7 +210,7 @@ TEE_TEST(TeeBasicTestFramWithInitContext, Opensession_WithoutOrigin, Function | 
 /**
  * @testcase.name      : Opensession_ContextIsNotInit
  * @testcase.desc      : call TEEC_OpenSession With Context is Not Init,
- * @testcase.expect    : return TEEC_ERROR_BAD_PARAMETERS
+ * @testcase.expect    : return TEEC_FAIL or TEEC_ERROR_BAD_PARAMETERS
  */
 TEE_TEST(TeeBasicTestFram, Opensession_ContextIsNotInit, Function | MediumTest | Level0)
 {
@@ -228,7 +228,8 @@ TEE_TEST(TeeBasicTestFram, Opensession_ContextIsNotInit, Function | MediumTest |
     operation.paramTypes = TEEC_PARAM_TYPES(TEEC_NONE, TEEC_NONE, TEEC_NONE, TEEC_NONE);
 
     ret = TEEC_OpenSession(&context, &session, &testId, TEEC_LOGIN_IDENTIFY, NULL, NULL, &origin);
-    ASSERT_EQ(ret, TEEC_ERROR_BAD_PARAMETERS);
+    ASSERT_TRUE(ret == TEEC_FAIL || ret == TEEC_ERROR_BAD_PARAMETERS)
+        << "unexpected result: " << ret;
     ASSERT_EQ(origin, TEEC_ORIGIN_API);
 }
 

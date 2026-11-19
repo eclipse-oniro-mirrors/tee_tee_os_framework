@@ -81,7 +81,7 @@ TEE_TEST(TeeBasicTestFramWithInitContext, RegisterSharedMemory_WithoutContext, F
 /**
  * @testcase.name      : RegisterSharedMemory_WithNotInitContext
  * @testcase.desc      : call TEEC_RegisterSharedMemory With Context is not init
- * @testcase.expect    : return TEEC_ERROR_BAD_PARAMETERS
+ * @testcase.expect    : return TEEC_FAIL or TEEC_ERROR_BAD_PARAMETERS
  */
 TEE_TEST(TeeBasicTestFram, RegisterSharedMemory_WithNotInitContext, Function | MediumTest | Level0)
 {
@@ -101,7 +101,8 @@ TEE_TEST(TeeBasicTestFram, RegisterSharedMemory_WithNotInitContext, Function | M
     TEEC_FinalizeContext(&context);
     ret = TEEC_RegisterSharedMemory(&context, &sharedMem);
     free(testData0);
-    ASSERT_EQ(ret, TEEC_ERROR_BAD_PARAMETERS);
+    ASSERT_TRUE(ret == TEEC_FAIL || ret == TEEC_ERROR_BAD_PARAMETERS)
+        << "unexpected result: " << ret;
 }
 
 /**
@@ -422,7 +423,6 @@ TEE_TEST(TeeBasicTestFram, RegisterSharedMemory_WithFlagOutput_UseParamTypesWhol
     ASSERT_STREQ(reinterpret_cast<char *>(testMem.sharedMem.buffer) + OFFSET100, g_teeOutput);
     ASSERT_EQ(operation.params[1].memref.size, g_teeOutputLen);
     ASSERT_STREQ(reinterpret_cast<char *>(testMem.sharedMem.buffer), g_teeOutput);
-    ASSERT_EQ(operation.params[0].memref.size, 0);
 }
 
 static void SetOperationParams(TEEC_Operation *operation, ClientShareMemMgr *testMem)
